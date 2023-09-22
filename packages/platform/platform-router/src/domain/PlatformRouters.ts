@@ -1,6 +1,6 @@
 import {getValue, Hooks, Type} from "@tsed/core";
 import {ControllerProvider, GlobalProviders, Injectable, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
-import {concatPath, getOperationsRoutes} from "@tsed/schema";
+import {concatPath, getOperationsRoutes, OPERATION_HTTP_VERBS} from "@tsed/schema";
 import {useContextHandler} from "../utils/useContextHandler";
 import {PlatformLayer} from "./PlatformLayer";
 import {PlatformRouter} from "./PlatformRouter";
@@ -42,6 +42,7 @@ GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
 @Injectable()
 export class PlatformRouters {
   readonly hooks = new Hooks();
+  readonly allowedVerbs = OPERATION_HTTP_VERBS;
 
   constructor(protected readonly injector: InjectorService) {}
 
@@ -69,7 +70,7 @@ export class PlatformRouters {
 
     const {children} = provider;
 
-    getOperationsRoutes(provider.token).forEach((operationRoute) => {
+    getOperationsRoutes(provider.token, {allowedVerbs: this.allowedVerbs}).forEach((operationRoute) => {
       const {endpoint} = operationRoute;
       const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares} = endpoint;
 
