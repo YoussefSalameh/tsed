@@ -224,6 +224,33 @@ that will have injected RecipeService in the constructor:
 
 <<< @/tutorials/snippets/graphql/resolver-service.ts
 
+#### Multiple GraphQL server
+
+If you register multiple GraphQL servers, you must specify the server id in the `@ResolverController` decorator.
+
+```typescript
+@ResolverController(Recipe, {id: "server1"})
+```
+
+Another solution is to not use `@ResolverController` (use `@Resolver` from TypeGraphQL), and declare explicitly the resolver in the server configuration:
+
+```typescript
+@Configuration({
+  graphql: {
+    server1: {
+      resolvers: {
+        RecipeResolver
+      }
+    },
+    server2: {
+      resolvers: {
+        OtherResolver
+      }
+    }
+  }
+})
+```
+
 ### Data Source
 
 Data source is one of the Apollo server features which can be used as option for your Resolver or Query. Ts.ED provides

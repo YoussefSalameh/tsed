@@ -51,9 +51,10 @@ describe("TypeGraphQLService", () => {
         jest.spyOn(service as any, "createSchema").mockReturnValue({schema: "schema"});
 
         const result1 = await service.createServer("key", {
-          path: "/path"
+          path: "/path",
+          resolvers: [AuthResolver]
         } as any);
-        const result2 = await service.createServer("key", {path: "/path"} as any);
+        const result2 = await service.createServer("key", {path: "/path", resolvers: [AuthResolver]} as any);
 
         expect(apolloService.createServer).toHaveBeenCalledWith("typegraphql-key", {
           dataSources: expect.any(Function),

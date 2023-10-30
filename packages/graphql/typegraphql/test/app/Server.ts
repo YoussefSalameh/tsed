@@ -11,6 +11,7 @@ import "./protocols/GraphQLProtocol";
 import "./graphql/index";
 import "./services/RecipeService";
 import "./services/UsersRepository";
+import {AuthResolver} from "./graphql/index";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();
@@ -29,6 +30,7 @@ const [, rootDir] = filedirname();
   graphql: {
     default: {
       path: "/api/graphql",
+      resolvers: [AuthResolver],
       buildSchemaOptions: {
         emitSchemaFile: resolve(rootDir, "../resources/schema.gql")
       },
